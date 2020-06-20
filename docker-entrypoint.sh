@@ -5,7 +5,7 @@
 set -euo pipefail
 
 # configure script to call original entrypoint
-set -- tini -- ${BCO_BINARY} "$@"
+#set -- tini -- ${BCO_BINARY} "$@"
 
 # Add bco user
 BCO_USER_ID=${USER_ID:-9002}

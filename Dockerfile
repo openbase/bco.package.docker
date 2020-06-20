@@ -70,4 +70,4 @@ HEALTHCHECK CMD bco-validate >/dev/null || exit 1
 USER root
 
 # Set command
-CMD ["gosu", "bco", "tini", "-s", "${BCO_BINARY}"]
+CMD ["gosu", "bco", "tini", "-s", "bco"]
