@@ -23,7 +23,7 @@ RUN export LC_ALL=en_US.UTF-8 && \
 
 # Create bco user because bco does not need any root privileges
 RUN groupadd -r bco && \
-    useradd --no-log-init -r -g bco bco
+    useradd --no-log-init --disabled-password -g bco bco
 
 USER bco
 WORKDIR /home/bco
