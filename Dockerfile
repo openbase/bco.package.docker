@@ -31,7 +31,6 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AAF438A589C2F541
 RUN echo "deb https://dl.bintray.com/openbase/deb buster main" | tee -a /etc/apt/sources.list
 RUN echo "deb https://dl.bintray.com/openbase/deb buster testing" | tee -a /etc/apt/sources.list
 
-
 # Install bco
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
@@ -47,10 +46,6 @@ RUN export LC_ALL=en_US.UTF-8 && \
     export LANG=en_US.UTF-8 && \
     locale-gen en_US.UTF-8
 
-#VOLUME $prefix/var
-#VOLUME $prefix/etc
-#VOLUME $prefix/share
-
 # Create bco user because bco does not need any root privileges
 #RUN groupadd -r bco && \
 #    useradd --no-log-init --home-dir /home/bco --system --create-home -g bco bco
@@ -62,10 +57,11 @@ VOLUME ${BCO_HOME} ${OPENHAB_SITEMAP}
 WORKDIR ${BCO_USER_HOME}
 
 # Set entry point
-# entrypoint is used to update docker gid and revert back to jenkins user
+# entrypoint is used to update docker gid and revert back to bco user
 COPY docker-entrypoint.sh /usr/local/bin/
-RUN ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
-ENTRYPOINT ["docker-entrypoint.sh"]
+RUN ln -s /usr/local/bin/docker-entrypoint.sh && \
+    chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 # Set healthcheck
 HEALTHCHECK CMD bco-validate >/dev/null || exit 1

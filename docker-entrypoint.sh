@@ -28,7 +28,7 @@ fi
 chown -R bco:bco "${BCO_USER_HOME}"
 sync
 
-# Add call to gosu to drop from root user to jenkins user
+# Add call to gosu to drop from root user to bco user
 # when running original entrypoint
 set -- gosu bco "$@"
 
