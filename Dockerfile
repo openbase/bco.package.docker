@@ -7,8 +7,9 @@ ENV \
     LC_ALL="en_US.UTF-8" \
     LANG="en_US.UTF-8" \
     LANGUAGE="en_US.UTF-8" \
+    BCO_USER="bco" \
     BCO_USER_HOME="/home/bco" \
-    BCO_HOME="${BCO_USER_HOME}/.config/bco" \
+    BCO_HOME="/home/bco/data" \
     BCO_BINARY="/usr/bin/bco" \
     OPENHAB_SITEMAP="/etc/openhab2/sitemaps"
 
@@ -41,14 +42,9 @@ RUN apt-get update && \
     locales-all \
     bco
 
-# Fix UTF8
-RUN export LC_ALL=en_US.UTF-8 && \
-    export LANG=en_US.UTF-8 && \
-    locale-gen en_US.UTF-8
-
 # Create bco user because bco does not need any root privileges
-#RUN groupadd -r bco && \
-#    useradd --no-log-init --home-dir /home/bco --system --create-home -g bco bco
+RUN groupadd -r bco && \
+    useradd --no-log-init --home-dir /home/bco --system --create-home -g bco bco
 
 # Expose volume
 VOLUME ${BCO_HOME} ${OPENHAB_SITEMAP}
@@ -70,4 +66,7 @@ HEALTHCHECK CMD bco-validate >/dev/null || exit 1
 USER root
 
 # Set command
-CMD ["gosu", "bco", "tini", "-s", "bco"]
+CMD gosu bco tini -s bco -v --log-level debug
+CMD ["bco", "-v", "--log-level", "debug"]
+#CMD gosu ${BCO_USER} tini -s bco -v
+#CMD ["gosu", ${BCO_USER}, "tini", "bco"]
