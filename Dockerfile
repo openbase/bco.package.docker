@@ -26,5 +26,6 @@ RUN groupadd -r bco && \
     useradd --no-log-init -r -g bco bco
 
 USER bco
+WORKDIR /home/bco
 
 CMD exec bco
