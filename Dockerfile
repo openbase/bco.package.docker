@@ -67,6 +67,6 @@ USER root
 
 # Set command
 CMD gosu bco tini -s bco -v --log-level debug
-CMD ["bco", "-v", "--log-level", "debug"]
+#CMD ["bco", "-v", "--log-level", "debug"]
 #CMD gosu ${BCO_USER} tini -s bco -v
 #CMD ["gosu", ${BCO_USER}, "tini", "bco"]
