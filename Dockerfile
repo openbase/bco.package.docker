@@ -59,8 +59,8 @@ RUN ln -s /usr/local/bin/docker-entrypoint.sh && \
     chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
-# Set healthcheck
-HEALTHCHECK CMD bco-validate >/dev/null || exit 1
+# Configure healthcheck
+HEALTHCHECK --interval=1h --timeout=2m CMD bco-validate >/dev/null || exit 1
 
 # switch to root, let the entrypoint drop back to bco user
 USER root
