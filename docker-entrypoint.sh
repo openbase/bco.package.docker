@@ -5,7 +5,7 @@
 set -euo pipefail
 
 # configure script to call original entrypoint
-#set -- tini -- "$@"
+set -- tini -s -- "$@"
 
 # Add bco user
 BCO_USER_ID=${USER_ID:-9002}
@@ -25,12 +25,13 @@ if ! id -u ${BCO_USER} >/dev/null 2>&1; then
 fi
 
 # Set bco directory permission
-#chown -R ${BCO_USER}:${BCO_USER} "${BCO_USER_HOME}"
-#sync
+chown -R ${BCO_USER}:${BCO_USER} "${BCO_USER_HOME}"
+sync
 
 # Add call to gosu to drop from root user to bco user
 # when running original entrypoint
-#set -- gosu ${BCO_USER} "$@"
+set -- gosu ${BCO_USER} "$@"
 
 # replace the current pid 1 with original entrypoint
+echo "start main application: $@" 
 exec "$@"

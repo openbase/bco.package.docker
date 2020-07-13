@@ -11,7 +11,7 @@ ENV \
     BCO_USER_HOME="/home/bco" \
     BCO_HOME="/home/bco/data" \
     BCO_BINARY="/usr/bin/bco" \
-    OPENHAB_SITEMAP="/etc/openhab2/sitemaps"
+    BCO_OPTIONS=""
 
 # Basic build-time metadata as defined at http://label-schema.org
 LABEL org.label-schema.build-date=$BUILD_DATE \
@@ -42,12 +42,8 @@ RUN apt-get update && \
     locales-all \
     bco
 
-# Create bco user because bco does not need any root privileges
-RUN groupadd -r bco && \
-    useradd --no-log-init --home-dir /home/bco --system --create-home -g bco bco
-
 # Expose volume
-VOLUME ${BCO_HOME} ${OPENHAB_SITEMAP}
+VOLUME ${BCO_HOME}
 
 # Set working dir
 WORKDIR ${BCO_USER_HOME}
@@ -66,7 +62,5 @@ HEALTHCHECK --interval=1h --timeout=2m CMD bco-validate >/dev/null || exit 1
 USER root
 
 # Set command
-CMD gosu bco tini -s bco -v --log-level debug
-#CMD ["bco", "-v", "--log-level", "debug"]
-#CMD gosu ${BCO_USER} tini -s bco -v
-#CMD ["gosu", ${BCO_USER}, "tini", "bco"]
+CMD bco --bco-home ${BCO_HOME} ${BCO_OPTIONS}
+
