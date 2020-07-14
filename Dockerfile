@@ -56,6 +56,7 @@ RUN ln -s /usr/local/bin/docker-entrypoint.sh && \
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 # Configure healthcheck
+# todo: make sure only the registry availability is checks since devices are not maintained by this instance.
 HEALTHCHECK --interval=1h --timeout=2m CMD bco-validate >/dev/null || exit 1
 
 # switch to root, let the entrypoint drop back to bco user
