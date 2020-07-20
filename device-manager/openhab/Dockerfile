@@ -4,7 +4,7 @@ FROM openbaseorg/bco:experimental
 # Set variables and locales
 ENV \
     EXTRA_JAVA_OPTS="" \
-    OPENHAB_SITEMAP="/etc/openhab2/sitemaps" \
+    OPENHAB_CONF="/etc/openhab2" \
     BCO_OPTIONS=""
 
 # Basic build-time metadata as defined at http://label-schema.org
@@ -22,7 +22,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     maintainer="Divine Threepwood <divine@openbase.org>"
 
 # Expose volume
-VOLUME ${BCO_HOME} ${OPENHAB_SITEMAP}
+VOLUME ${BCO_HOME} ${OPENHAB_CONF}
 
 # Configure healthcheck
 # todo: make sure only device offered by this device manager are checked
