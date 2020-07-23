@@ -14,7 +14,7 @@ else
 
         # register bco user as member of the openhab group
         usermod -a -G ${OPENHAB_USER_NAME} ${BCO_USER}
-    }
+    fi
 
     # make sure openhab group can modify existing configurations
     chmod -R g+rw ${OPENHAB_CONF} 
