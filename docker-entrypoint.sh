@@ -32,6 +32,14 @@ sync
 # when running original entrypoint
 set -- gosu ${BCO_USER} "$@"
 
+# Prepare bco modules if required
+if [ -z ${BCO_MODULE_PREPARE_SCRIPT+x} ]; then
+    echo "no module preperation required.";
+else
+    echo "prepare bco modules...";
+    source /usr/local/bin/${BCO_MODULE_PREPARE_SCRIPT};
+fi
+
 # replace the current pid 1 with original entrypoint
 echo "start main application: $@" 
 exec "$@"
