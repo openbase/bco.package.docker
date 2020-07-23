@@ -5,7 +5,8 @@ FROM openbaseorg/bco:experimental
 ENV \
     EXTRA_JAVA_OPTS="" \
     OPENHAB_CONF="/etc/openhab2" \
-    BCO_OPTIONS=""
+    BCO_OPTIONS="" \
+    BCO_MODULE_PREPARE_SCRIPT="bco-module-prepare.sh"
 
 # Basic build-time metadata as defined at http://label-schema.org
 LABEL org.label-schema.build-date=$BUILD_DATE \
@@ -23,6 +24,11 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 # Expose volume
 VOLUME ${BCO_HOME} ${OPENHAB_CONF}
+
+# Set custom prepare script
+COPY ${BCO_MODULE_PREPARE_SCRIPT} /usr/local/bin/
+RUN ln -s /usr/local/bin/${BCO_MODULE_PREPARE_SCRIPT} && \
+    chmod +x /usr/local/bin/${BCO_MODULE_PREPARE_SCRIPT}
 
 # Configure healthcheck
 # todo: make sure only device offered by this device manager are checked
