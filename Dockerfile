@@ -27,6 +27,19 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-url="https://github.com/openbase/bco.package.docker.git" \
     maintainer="Divine Threepwood <divine@openbase.org>"
 
+# Install dependencies
+## gnupg: required for adding gpg keys via apt-key
+## gosu: required to switch to another user ofter entrypoint is started as root.
+## tini: required to forward app signals such as sigint.
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+    gnupg \
+    gosu \
+    tini \
+    fontconfig \
+    locales \
+    locales-all
+
 # Setup Openbase Debian Repository
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AAF438A589C2F541
 RUN echo "deb https://dl.bintray.com/openbase/deb buster main" | tee -a /etc/apt/sources.list
@@ -35,11 +48,6 @@ RUN echo "deb https://dl.bintray.com/openbase/deb buster testing" | tee -a /etc/
 # Install bco
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-    gosu \
-    tini \
-    fontconfig \
-    locales \
-    locales-all \
     bco
 
 # Expose volume
