@@ -6,7 +6,8 @@ OPENHAB_USER_NAME="openhab"
 if [ -z ${OPENHAB_GROUP_ID+x} ]; then
     echo "openhab group id not set! Therefore, sitemap permissions can not be guaranteed.";
 else
-    if [ -z "$(getent group $BCO_GROUP_ID)" ]; then
+    # skip creation if already exist
+    if [ -z "$(getent group $OPENHAB_GROUP_ID)" ]; then
         echo "add bco user to openhab group to guarantee sitemap folder access...";
 
         # create openhab group within the container
