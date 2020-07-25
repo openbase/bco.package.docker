@@ -10,6 +10,7 @@ ENV \
     BCO_USER="bco" \
     BCO_USER_HOME="/home/bco" \
     BCO_HOME="/home/bco/data" \
+    BCO_LOGS="/home/bco/data/log" \
     BCO_BINARY="/usr/bin/bco" \
     BCO_OPTIONS=""
 
@@ -64,6 +65,10 @@ RUN ln -s /usr/local/bin/docker-entrypoint.sh && \
     chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
+# Configure logger
+COPY logback-debug.xml /etc/bco/
+COPY logback.xml /etc/bco/
+
 # Configure healthcheck
 # todo: make sure only the registry availability is checks since devices are not maintained by this instance.
 HEALTHCHECK --interval=1h --timeout=2m CMD bco-validate >/dev/null || exit 1
@@ -72,5 +77,5 @@ HEALTHCHECK --interval=1h --timeout=2m CMD bco-validate >/dev/null || exit 1
 USER root
 
 # Set command
-CMD bco --bco-home ${BCO_HOME} ${BCO_OPTIONS}
+CMD bco --bco-home ${BCO_HOME} --log-dir ${BCO_LOGS} ${BCO_OPTIONS}
 
