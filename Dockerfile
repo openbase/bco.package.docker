@@ -77,5 +77,5 @@ HEALTHCHECK --interval=1h --timeout=2m CMD bco-validate >/dev/null || exit 1
 USER root
 
 # Set command
-CMD bco --bco-home ${BCO_HOME} --log-dir ${BCO_LOGS} ${BCO_OPTIONS}
-
+#CMD bco --bco-home ${BCO_HOME} --log-dir ${BCO_LOGS} ${BCO_OPTIONS}
+CMD ["bco"]

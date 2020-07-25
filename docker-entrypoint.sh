@@ -32,6 +32,10 @@ sync
 # when running original entrypoint
 set -- gosu ${BCO_USER} "$@"
 
+# Prepare log directory
+mkdir -p ${BCO_LOGS}
+chown -R ${BCO_USER} ${BCO_LOGS} 
+
 # Prepare bco modules if required
 if [ -z ${BCO_MODULE_PREPARE_SCRIPT+x} ]; then
     echo "no module preperation required.";
@@ -41,5 +45,7 @@ else
 fi
 
 # replace the current pid 1 with original entrypoint
-echo "start main application: $@" 
+echo "start main application: $@"
+
+set -- "$@" --bco-home ${BCO_HOME} --log-dir ${BCO_LOGS} ${BCO_OPTIONS} -v
 exec "$@"
