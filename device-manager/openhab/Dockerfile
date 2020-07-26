@@ -38,4 +38,4 @@ HEALTHCHECK --interval=1h --timeout=2m CMD bco-validate >/dev/null || exit 1
 USER root
 
 # Set command
-CMD bco-manager-device-openhab --bco-home ${BCO_HOME} ${BCO_OPTIONS}
+CMD ["bco-manager-device-openhab"]
