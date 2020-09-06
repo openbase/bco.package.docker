@@ -1,5 +1,5 @@
 # Baseline image
-FROM openbaseorg/bco:experimental
+FROM openbaseorg/bco:experimental-amd64
 
 # Set variables and locales
 ENV \
