@@ -1,6 +1,14 @@
-# Baseline image
-# FROM azul/zulu-openjdk-debian:11
-FROM debian:stable
+FROM alpine AS builder
+
+# Download QEMU, see https://github.com/docker/hub-feedback/issues/1261
+ENV QEMU_URL https://github.com/balena-io/qemu/releases/download/v3.0.0%2Bresin/qemu-3.0.0+resin-arm.tar.gz
+RUN apk add curl && curl -L ${QEMU_URL} | tar zxvf - -C . --strip-components 1
+
+# Use an official debian as parent image
+FROM arm32v7/debian:stable
+
+# Add QEMU
+COPY --from=builder qemu-arm-static /usr/bin
 
 # Set variables and locales
 ENV \
@@ -98,7 +106,7 @@ COPY logback.xml /etc/bco/
 
 # Configure healthcheck
 # todo: make sure only the registry availability is checks since devices are not maintained by this instance.
-HEALTHCHECK --interval=15m --timeout=2m CMD bco-validate >/dev/null || exit 1
+HEALTHCHECK --interval=1h --timeout=2m CMD bco-validate >/dev/null || exit 1
 
 # switch to root, let the entrypoint drop back to bco user
 USER root
