@@ -91,9 +91,10 @@ RUN ln -s /usr/local/bin/docker-entrypoint.sh && \
     chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
+# TODO: probably deprecated by setting the variables BCO_LOGS above
 # Configure logger
-COPY logback-debug.xml /etc/bco/
-COPY logback.xml /etc/bco/
+# COPY logback-debug.xml /etc/bco/
+# COPY logback.xml /etc/bco/
 
 # Configure healthcheck
 # todo: make sure only the registry availability is checks since devices are not maintained by this instance.
