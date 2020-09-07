@@ -3,7 +3,7 @@ FROM openbaseorg/bco:experimental-amd64
 
 # Set variables and locales
 ENV \
-    EXTRA_JAVA_OPTS="" \
+    JAVA_OPTS="" \
     OPENHAB_CONF="/etc/openhab2" \
     BCO_OPTIONS="" \
     BCO_MODULE_PREPARE_SCRIPT="bco-module-prepare.sh"

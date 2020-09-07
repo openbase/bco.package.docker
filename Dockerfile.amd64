@@ -3,7 +3,7 @@ FROM debian:stable
 
 # Set variables and locales
 ENV \
-    EXTRA_JAVA_OPTS="" \
+    JAVA_OPTS="" \
     LC_ALL="en_US.UTF-8" \
     LANG="en_US.UTF-8" \
     LANGUAGE="en_US.UTF-8" \
