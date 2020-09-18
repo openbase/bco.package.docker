@@ -26,7 +26,7 @@ ENV \
 
 # Basic build-time metadata as defined at http://label-schema.org
 LABEL org.label-schema.build-date=$BUILD_DATE \
-    org.label-schema.docker.dockerfile="/Dockerfile" \
+    org.label-schema.docker.dockerfile="/Dockerfile.arm32" \
     org.label-schema.license="GPL3" \
     org.label-schema.name="bco" \
     org.label-schema.vendor="openbase.org" \
